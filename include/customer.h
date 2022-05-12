@@ -2,12 +2,14 @@
 
 class Customer {
    private:
-    bool haircutCompleted = false;
+    bool haircutCompleted;
+    int id;
 
    public:
-    Customer(/* args */);
+    explicit Customer(int idCus);
     ~Customer();
 
     bool getHaircutCompleted();
     void setHaircutCompleted(bool haircut);
+    int getId();
 };
