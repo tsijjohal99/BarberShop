@@ -8,8 +8,10 @@
 class LogicManager {
    private:
     int customerEntered;
-    const static int totalCustomers = 20;
+    const static int totalCustomers = 100;
+    const static int noOfBarbers = 3;
     std::thread customerThreads[totalCustomers];
+    std::thread barberThreads[noOfBarbers];
 
    public:
     LogicManager();

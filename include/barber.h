@@ -3,11 +3,13 @@
 class Barber {
    private:
     bool sleep;
+    int id;
 
    public:
-    Barber(/* args */);
+    explicit Barber(int idBarb);
     ~Barber();
 
     bool getSleep();
     void setSleep(bool sl);
+    int getId();
 };

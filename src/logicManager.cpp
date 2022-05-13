@@ -5,7 +5,9 @@
 
 LogicManager::LogicManager() {
     srand(time(NULL));
-    system("cls");
+    fputs("\x1b[H\x1b[2J\x1b[3J", stdout);
+    fflush(stdout);
+    // system("cls");
     BarberShop bs;
     customerEntered = 0;
     managingBarberShop(bs);
@@ -16,15 +18,17 @@ LogicManager::~LogicManager() {
 }
 
 void LogicManager::managingBarberShop(BarberShop& bs) {
-    std::thread barberThread(&BarberShop::barberAction, &bs);
-    for (int i = 0; i < totalCustomers; i++) {
-        // std::thread customerThread(&BarberShop::customerActon, &bs, customerEntered);
-        customerThreads[i] = std::thread(&BarberShop::customerActon, &bs, i);
-        std::this_thread::sleep_for(std::chrono::seconds(rand() % 3));
+    for (int i = 0; i < noOfBarbers; i++)
+        barberThreads[i] = std::thread(&BarberShop::barberAction, &bs, i);
+
+    for (int j = 0; j < totalCustomers; j++) {
+        customerThreads[j] = std::thread(&BarberShop::customerActon, &bs, j);
+        std::this_thread::sleep_for(std::chrono::seconds(rand() % 5));
     }
 
-    barberThread.join();
-    for (int i = 0; i < totalCustomers; i++) {
-        customerThreads[i].join();
-    }
+    for (auto& barbThread : barberThreads)
+        barbThread.join();
+
+    for (auto& cusThread : customerThreads)
+        cusThread.join();
 }

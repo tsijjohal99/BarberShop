@@ -4,6 +4,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <vector>
 
 #include "barber.h"
 #include "customer.h"
@@ -12,19 +13,21 @@ class BarberShop {
    private:
     std::mutex gLock;
     std::condition_variable gConditionVariable;
-    std::shared_ptr<Barber> barberInShop;
-    std::shared_ptr<Customer> barberChair;
+    std::vector<std::pair<std::shared_ptr<Barber>, std::shared_ptr<Customer>>> barberAndCustomer;
     std::queue<std::shared_ptr<Customer>> waitingRoom;
-    int noOfSeats = 5;
+    int noOfSeats = 8;
     int customersEntered;
+    int toWake;
 
    public:
     BarberShop();
     ~BarberShop();
 
     void turn();
-    void barberAction();
+    void barberAction(int id);
     void customerActon(int customerID);
     std::thread addBarber();
     std::thread addCustomer(int customerID);
+    int findIdOfBarber(std::shared_ptr<Customer> cs);
+    bool checkIfHaircutCompleted(std::shared_ptr<Customer> cs, int &id);
 };
