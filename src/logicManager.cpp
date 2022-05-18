@@ -23,7 +23,7 @@ void LogicManager::managingBarberShop(BarberShop& bs) {
 
     for (int j = 0; j < totalCustomers; j++) {
         customerThreads[j] = std::thread(&BarberShop::customerActon, &bs, j);
-        std::this_thread::sleep_for(std::chrono::seconds(rand() % 5));
+        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 4000));
     }
 
     for (auto& barbThread : barberThreads)
